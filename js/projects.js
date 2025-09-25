@@ -236,8 +236,9 @@ function updateSearchCount(count, searchTerm) {
 }
 
 // Project modal functionality
+// Project modal functionality
 function initProjectModal() {
-    // Create modal HTML
+    // Create modal HTML (no change needed here, as the element is already there)
     const modalHTML = `
         <div class="project-modal" id="project-modal">
             <div class="modal-overlay"></div>
@@ -252,10 +253,6 @@ function initProjectModal() {
                         <p class="modal-description"></p>
                         <div class="modal-tech"></div>
                         <div class="modal-links">
-                            <a href="#" class="btn btn-primary modal-demo">
-                                <i class="fas fa-external-link-alt"></i>
-                                Live Demo
-                            </a>
                             <a href="#" class="btn btn-secondary modal-github">
                                 <i class="fab fa-github"></i>
                                 View Code
@@ -273,7 +270,7 @@ function initProjectModal() {
 
     document.body.insertAdjacentHTML('beforeend', modalHTML);
 
-    // Add modal styles
+    // Add modal styles (omitted for brevity)
     const modalStyles = `
         .project-modal {
             position: fixed;
@@ -420,10 +417,13 @@ function initProjectModal() {
     const modal = document.getElementById('project-modal');
     const modalOverlay = modal.querySelector('.modal-overlay');
     const modalClose = modal.querySelector('.modal-close');
+    // Get the GitHub link button
+    const modalGithubLink = modal.querySelector('.modal-github'); 
 
-    // Project data
+    // Project data - UPDATED TO INCLUDE githubUrl
     const projectData = {
-        'E-commerce Platform': {
+        'Personal Portfolio': {
+            githubUrl: 'https://github.com/yourusername/personal-portfolio', // Placeholder URL
             features: [
                 'User authentication and authorization',
                 'Product catalog with search and filters',
@@ -433,26 +433,30 @@ function initProjectModal() {
                 'Responsive design for all devices'
             ]
         },
-        'AI Study Assistant': {
+        'TO-DO App': {
+            githubUrl: 'https://github.com/DikshyaSingh/To-Do-app', // Placeholder URL
             features: [
-                'Natural language processing',
-                'Intelligent question answering',
-                'Study schedule optimization',
-                'Progress tracking and analytics',
-                'Multi-subject support',
-                'Voice interaction capabilities'
+                'User authentication and authorization',
+                'Create & Manage Study Goals',
+                'Daily Task Completion Tracking',
+                'Streak Maintenance for Motivation',
+                'AsyncStorage for Local Data Handling'
             ]
         },
-        'Task Management App': {
+        'Xpense TrackerApp': {
+            githubUrl: 'https://github.com/DikshyaSingh/XpenseTracker', // Placeholder URL
             features: [
-                'Cross-platform compatibility',
-                'Real-time synchronization',
-                'Team collaboration tools',
-                'Priority-based task organization',
-                'Deadline reminders and notifications',
-                'Offline functionality'
+                'Email Authentication (Login & Signup)',
+                'Create & Join Rooms with Invite Codes',
+                'Multi-Room Switching',
+                'Real-Time Chat System (Firebase)',
+                'Add & Track Income/Expenses',
+                'Search in Transactions',
+                'Profile with Image Upload (AsyncStorage)',
+                'Update Username & Logout'
             ]
-        }
+        },
+        
         // Add more project data as needed
     };
 
@@ -462,11 +466,19 @@ function initProjectModal() {
         const description = projectCard.querySelector('.project-description').textContent;
         const image = projectCard.querySelector('.project-image img').src;
         const techTags = Array.from(projectCard.querySelectorAll('.tech-tag'));
+        
+        // Get project data based on the title
+        const project = projectData[title];
+        const githubUrl = project?.githubUrl || '#'; // Default to '#' if no URL is found
 
         // Populate modal content
         modal.querySelector('.modal-title').textContent = title;
         modal.querySelector('.modal-description').textContent = description;
         modal.querySelector('.modal-image img').src = image;
+        
+        // SET THE GITHUB LINK
+        modalGithubLink.href = githubUrl; 
+        modalGithubLink.target = '_blank'; // Optional: open link in new tab
 
         // Clear and populate tech tags
         const modalTech = modal.querySelector('.modal-tech');
@@ -479,7 +491,7 @@ function initProjectModal() {
         // Populate features
         const featuresList = modal.querySelector('.features-list');
         featuresList.innerHTML = '';
-        const features = projectData[title]?.features || ['Feature information coming soon...'];
+        const features = project?.features || ['Feature information coming soon...'];
         features.forEach(feature => {
             const li = document.createElement('li');
             li.textContent = feature;
@@ -527,23 +539,6 @@ function initProjectModal() {
         // Add cursor pointer
         card.style.cursor = 'pointer';
     });
-}
-
-// GitHub contribution graph animation
-function initGitHubGraph() {
-    const contributionDays = document.querySelectorAll('.contribution-day');
-    
-    contributionDays.forEach((day, index) => {
-        setTimeout(() => {
-            day.style.opacity = '1';
-            day.style.transform = 'scale(1)';
-        }, index * 20);
-    });
-}
-
-// Initialize GitHub graph if present
-if (document.querySelector('.contribution-graph')) {
-    initGitHubGraph();
 }
 
 // Export functions for external use

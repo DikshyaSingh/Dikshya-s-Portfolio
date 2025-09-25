@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects - Dikshya Singh</title>
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/animations.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
@@ -58,9 +61,8 @@
         <div class="container">
             <div class="filter-buttons">
                 <button class="filter-btn active" data-filter="all">All Projects</button>
-                <button class="filter-btn" data-filter="web">Web Development</button>
-                <button class="filter-btn" data-filter="mobile">Mobile Apps</button>
-                <button class="filter-btn" data-filter="other">Others</button>
+                <button class="filter-btn active" data-filter="all">UI Projects</button>
+
             </div>
         </div>
     </section>
@@ -70,43 +72,11 @@
         <div class="container">
             <div class="projects-grid" id="projects-grid">
                 <!-- Web Development Projects -->
-                <div class="project-card" data-category="web">
-                    <div class="project-image">
-                        <img src="https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=600" alt="E-commerce Platform">
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="#" class="project-link" title="Live Demo">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </a>
-                                <a href="#" class="project-link" title="GitHub">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">E-commerce Platform</h3>
-                        <p class="project-description">
-                            A full-stack e-commerce solution with modern UI/UX, 
-                            payment integration, and admin dashboard.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">Node.js</span>
-                            <span class="tech-tag">MongoDB</span>
-                            <span class="tech-tag">Stripe</span>
-                        </div>
-                        <div class="project-stats">
-                            <span class="stat"><i class="fas fa-star"></i> 4.8</span>
-                            <span class="stat"><i class="fas fa-code-branch"></i> 12</span>
-                            <span class="stat"><i class="fas fa-eye"></i> 245</span>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="project-card" data-category="web">
                     <div class="project-image">
-                        <img src="https://images.pexels.com/photos/270348/pexels-photo-270348.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Portfolio Website">
+                        <img src="https://images.pexels.com/photos/270348/pexels-photo-270348.jpeg?auto=compress&cs=tinysrgb&w=600"
+                            alt="Portfolio Website">
                         <div class="project-overlay">
                             <div class="project-links">
                                 <a href="#" class="project-link" title="Live Demo">
@@ -121,61 +91,25 @@
                     <div class="project-content">
                         <h3 class="project-title">Personal Portfolio</h3>
                         <p class="project-description">
-                            Responsive portfolio website with smooth animations 
+                            Responsive portfolio website with smooth animations
                             and modern design principles.
                         </p>
                         <div class="project-tech">
                             <span class="tech-tag">HTML5</span>
                             <span class="tech-tag">CSS3</span>
                             <span class="tech-tag">JavaScript</span>
-                            
+                            <span class="tech-tag">TailWind</span>
+
+
                         </div>
-                        <div class="project-stats">
-                            <span class="stat"><i class="fas fa-star"></i> 4.9</span>
-                            <span class="stat"><i class="fas fa-code-branch"></i> 8</span>
-                            <span class="stat"><i class="fas fa-eye"></i> 189</span>
-                        </div>
+
                     </div>
                 </div>
-
-                <div class="project-card" data-category="web">
-                    <div class="project-image">
-                        <img src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Social Media Dashboard">
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                <a href="#" class="project-link" title="Live Demo">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </a>
-                                <a href="#" class="project-link" title="GitHub">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Social Media Dashboard</h3>
-                        <p class="project-description">
-                            Analytics dashboard for social media management 
-                            with real-time data visualization.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Vue.js</span>
-                            <span class="tech-tag">Chart.js</span>
-                            <span class="tech-tag">Firebase</span>
-                            <span class="tech-tag">Tailwind</span>
-                        </div>
-                        <div class="project-stats">
-                            <span class="stat"><i class="fas fa-star"></i> 4.7</span>
-                            <span class="stat"><i class="fas fa-code-branch"></i> 15</span>
-                            <span class="stat"><i class="fas fa-eye"></i> 312</span>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Mobile App Projects -->
                 <div class="project-card" data-category="mobile">
                     <div class="project-image">
-                        <img src="https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Task Management App">
+                        <img src="https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&cs=tinysrgb&w=600"
+                            alt="Task Management App">
                         <div class="project-overlay">
                             <div class="project-links">
                                 <a href="#" class="project-link" title="Live Demo">
@@ -188,22 +122,53 @@
                         </div>
                     </div>
                     <div class="project-content">
-                        <h3 class="project-title">Task Management App</h3>
+                        <h3 class="project-title">TO-DO App</h3>
                         <p class="project-description">
-                            Cross-platform productivity app with offline sync 
-                            and collaborative features.
+                            A productivity-focused mobile app built with React Native to help students set study goals,
+                            track progress, and maintain daily streaks.
+                            Features login/signup functionality, goal creation, and progress tracking with local data
+                            storage using AsyncStorage.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">React Native</span>
+                            <span class="tech-tag">AsyncStorage</span>
+                            <span class="tech-tag">Mobile App</span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="project-card" data-category="mobile">
+                    <div class="project-image">
+                        <img src="https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&cs=tinysrgb&w=600"
+                            alt="Task Management App">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link" title="Live Demo">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                                <a href="#" class="project-link" title="GitHub">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Xpense TrackerApp</h3>
+                        <p class="project-description">
+                            A feature-rich mobile app built with React Native and Firebase to manage personal and shared
+                            expenses.
+                            Users can create rooms, invite roommates with a unique code, chat within rooms, and track
+                            incomes and expenses in real time.
+                            Includes search, profile management, and multi-room support for seamless group expense
+                            tracking.
                         </p>
                         <div class="project-tech">
                             <span class="tech-tag">React Native</span>
                             <span class="tech-tag">Firebase</span>
-                            <span class="tech-tag">Redux</span>
                             <span class="tech-tag">AsyncStorage</span>
+                            <span class="tech-tag">Mobile App</span>
                         </div>
-                        <div class="project-stats">
-                            <span class="stat"><i class="fas fa-star"></i> 4.6</span>
-                            <span class="stat"><i class="fas fa-code-branch"></i> 10</span>
-                            <span class="stat"><i class="fas fa-eye"></i> 156</span>
-                        </div>
+
                     </div>
                 </div>
 
@@ -211,44 +176,7 @@
         </div>
     </section>
 
-    <!-- GitHub Stats -->
-    <section class="github-stats">
-        <div class="container">
-            <h2 class="section-title">GitHub Activity</h2>
-            <div class="github-grid">
-                <div class="github-card">
-                    <h3 class="github-title">Contribution Graph</h3>
-                    <div class="contribution-graph">
-                        <div class="contribution-day" style="--intensity: 0.2;"></div>
-                        <div class="contribution-day" style="--intensity: 0.4;"></div>
-                        <div class="contribution-day" style="--intensity: 0.8;"></div>
-                        <div class="contribution-day" style="--intensity: 0.6;"></div>
-                        <div class="contribution-day" style="--intensity: 1.0;"></div>
-                        <div class="contribution-day" style="--intensity: 0.3;"></div>
-                        <div class="contribution-day" style="--intensity: 0.7;"></div>
-                        <!-- More contribution days... -->
-                    </div>
-                </div>
-                <div class="github-card">
-                    <h3 class="github-title">Repository Stats</h3>
-                    <div class="repo-stats">
-                        <div class="stat-item">
-                            <span class="stat-number">25</span>
-                            <span class="stat-label">Public Repos</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">150</span>
-                            <span class="stat-label">Total Stars</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">45</span>
-                            <span class="stat-label">Forks</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <!-- Footer -->
     <footer class="footer">
@@ -257,21 +185,24 @@
                 <div class="footer-section">
                     <h3 class="footer-title">Dikshya Singh</h3>
                     <p class="footer-description">
-                        B.Tech Computer Science Student passionate about creating 
+                        B.Tech Computer Science Student passionate about creating
                         innovative digital solutions.
                     </p>
                     <div class="social-links">
-                        <a href="https://www.linkedin.com/in/dikshya-singh-4627231b7?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank"  class="social-link">
+                        <a href="https://www.linkedin.com/in/dikshya-singh-4627231b7?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
+                            target="_blank" class="social-link">
                             <i class="fab fa-linkedin"></i>
                         </a>
-                        <a href="https://github.com/DikshyaSingh" target="_blank"  class="social-link">
+                        <a href="https://github.com/DikshyaSingh" target="_blank" class="social-link">
                             <i class="fab fa-github"></i>
                         </a>
-                        <a href="https://leetcode.com/u/dikshyasingh/" target="_blank" title="LeetCode" class="social-link">
+                        <a href="https://leetcode.com/u/dikshyasingh/" target="_blank" title="LeetCode"
+                            class="social-link">
                             <img src="https://assets.leetcode.com/static_assets/public/webpack_bundles/images/logo-dark.e99485d9b.svg"
                                 alt="LeetCode" style="width: 40px; height: 40px;" />
                         </a>
-                        <a href="https://www.instagram.com/diksha_066?igsh=MW1wbWx1dzNqdG1nNg==" target="_blank"  class="social-link">
+                        <a href="https://www.instagram.com/diksha_066?igsh=MW1wbWx1dzNqdG1nNg==" target="_blank"
+                            class="social-link">
                             <i class="fab fa-instagram"></i>
                         </a>
                     </div>
@@ -304,4 +235,5 @@
     <script src="js/animations.js"></script>
     <script src="js/projects.js"></script>
 </body>
+
 </html>
