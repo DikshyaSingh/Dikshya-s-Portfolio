@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initProjectAnimations();
     initProjectSearch();
     initProjectModal();
+    initProjectReadMore();
+    initProjectOverlayLinks();
 });
 
 // Project filtering functionality
@@ -209,6 +211,80 @@ function initProjectSearch() {
     });
 }
 
+// Read More for long project descriptions on cards
+function initProjectReadMore() {
+    const MAX_LEN = 120;
+    document.querySelectorAll('.projects-grid .project-description').forEach(desc => {
+        const original = desc.textContent.trim();
+        // Remove any existing read-more button placed previously
+        if (desc.nextElementSibling && desc.nextElementSibling.classList && desc.nextElementSibling.classList.contains('read-more-btn')) {
+            desc.nextElementSibling.remove();
+        }
+
+        if (original.length > MAX_LEN) {
+            desc.classList.add('truncated');
+            const btn = document.createElement('button');
+            btn.className = 'read-more-btn';
+            btn.textContent = 'Read more';
+            btn.setAttribute('aria-expanded', 'false');
+            desc.after(btn);
+            btn.addEventListener('click', function() {
+                if (desc.classList.contains('truncated')) {
+                    desc.classList.remove('truncated');
+                    desc.classList.add('full');
+                    btn.textContent = 'Read less';
+                    btn.setAttribute('aria-expanded', 'true');
+                } else {
+                    desc.classList.remove('full');
+                    desc.classList.add('truncated');
+                    btn.textContent = 'Read more';
+                    btn.setAttribute('aria-expanded', 'false');
+                }
+            });
+        } else {
+            desc.classList.remove('truncated', 'full');
+        }
+    });
+}
+
+// Set correct overlay links on project cards (UI => Design/Prototype)
+function initProjectOverlayLinks() {
+    document.querySelectorAll('.project-card').forEach(card => {
+        const category = card.getAttribute('data-category');
+        const links = card.querySelectorAll('.project-link');
+        if (!links || links.length === 0) return;
+
+        if (category === 'ui') {
+            const designUrl = card.getAttribute('data-design-url');
+            const prototypeUrl = card.getAttribute('data-prototype-url');
+
+            // Typically two links in overlay
+            const designLink = links[0];
+            const prototypeLink = links[1] || links[0];
+
+            if (designUrl) {
+                designLink.setAttribute('href', designUrl);
+                designLink.setAttribute('target', '_blank');
+                designLink.setAttribute('title', 'View Design');
+                const icon = designLink.querySelector('i');
+                if (icon) {
+                    icon.className = 'fas fa-palette';
+                }
+            }
+
+            if (prototypeUrl) {
+                prototypeLink.setAttribute('href', prototypeUrl);
+                prototypeLink.setAttribute('target', '_blank');
+                prototypeLink.setAttribute('title', 'View Prototype');
+                const icon = prototypeLink.querySelector('i');
+                if (icon) {
+                    icon.className = 'fas fa-play-circle';
+                }
+            }
+        }
+    });
+}
+
 // Update search count
 function updateSearchCount(count, searchTerm) {
     let searchCount = document.querySelector('.search-count');
@@ -253,9 +329,17 @@ function initProjectModal() {
                         <p class="modal-description"></p>
                         <div class="modal-tech"></div>
                         <div class="modal-links">
-                            <a href="#" class="btn btn-secondary modal-github">
+                            <a href="#" class="btn btn-secondary modal-github" style="display:none">
                                 <i class="fab fa-github"></i>
                                 View Code
+                            </a>
+                            <a href="#" class="btn btn-secondary modal-design" style="display:none">
+                                <i class="fas fa-palette"></i>
+                                View Design
+                            </a>
+                            <a href="#" class="btn btn-secondary modal-prototype" style="display:none">
+                                <i class="fas fa-play-circle"></i>
+                                View Prototype
                             </a>
                         </div>
                         <div class="modal-features">
@@ -371,6 +455,16 @@ function initProjectModal() {
             margin-bottom: 2rem;
         }
 
+		/* Ensure modal action buttons are compact, not full-width */
+		.modal-links .btn {
+			width: auto !important;
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			padding: 0.5rem 0.9rem;
+			white-space: nowrap;
+		}
+
         .modal-features h3 {
             font-size: 1.2rem;
             font-weight: 600;
@@ -406,6 +500,11 @@ function initProjectModal() {
             .modal-links {
                 flex-direction: column;
             }
+
+			.modal-links .btn {
+				width: auto !important;
+				align-self: flex-start;
+			}
         }
     `;
 
@@ -417,8 +516,10 @@ function initProjectModal() {
     const modal = document.getElementById('project-modal');
     const modalOverlay = modal.querySelector('.modal-overlay');
     const modalClose = modal.querySelector('.modal-close');
-    // Get the GitHub link button
-    const modalGithubLink = modal.querySelector('.modal-github'); 
+    // Modal action links
+    const modalGithubLink = modal.querySelector('.modal-github');
+    const modalDesignLink = modal.querySelector('.modal-design');
+    const modalPrototypeLink = modal.querySelector('.modal-prototype');
 
     // Project data - UPDATED TO INCLUDE githubUrl
     const projectData = {
@@ -466,6 +567,9 @@ function initProjectModal() {
         const description = projectCard.querySelector('.project-description').textContent;
         const image = projectCard.querySelector('.project-image img').src;
         const techTags = Array.from(projectCard.querySelectorAll('.tech-tag'));
+        const category = projectCard.getAttribute('data-category');
+        const designUrl = projectCard.getAttribute('data-design-url');
+        const prototypeUrl = projectCard.getAttribute('data-prototype-url');
         
         // Get project data based on the title
         const project = projectData[title];
@@ -476,9 +580,31 @@ function initProjectModal() {
         modal.querySelector('.modal-description').textContent = description;
         modal.querySelector('.modal-image img').src = image;
         
-        // SET THE GITHUB LINK
-        modalGithubLink.href = githubUrl; 
-        modalGithubLink.target = '_blank'; // Optional: open link in new tab
+        // Reset/hide all action links first
+        modalGithubLink.style.display = 'none';
+        modalDesignLink.style.display = 'none';
+        modalPrototypeLink.style.display = 'none';
+
+        // Show appropriate actions based on category
+        if (category === 'ui') {
+            if (designUrl) {
+                modalDesignLink.href = designUrl;
+                modalDesignLink.target = '_blank';
+                modalDesignLink.style.display = 'inline-flex';
+            }
+            if (prototypeUrl) {
+                modalPrototypeLink.href = prototypeUrl;
+                modalPrototypeLink.target = '_blank';
+                modalPrototypeLink.style.display = 'inline-flex';
+            }
+        } else {
+            // Show View Code for non-UI
+            if (githubUrl && githubUrl !== '#') {
+                modalGithubLink.href = githubUrl;
+                modalGithubLink.target = '_blank';
+                modalGithubLink.style.display = 'inline-flex';
+            }
+        }
 
         // Clear and populate tech tags
         const modalTech = modal.querySelector('.modal-tech');

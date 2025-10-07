@@ -156,6 +156,14 @@ body {
     width: 100%;
 }
 
+/* Compact navbar buttons (e.g., View Resume) */
+.navbar .btn {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-sm);
+    line-height: 1.2;
+    width: auto;
+}
+
 .hamburger {
     display: none;
     flex-direction: column;
@@ -1947,5 +1955,10 @@ body {
     .btn {
         width: 100%;
         justify-content: center;
+    }
+    /* Prevent navbar buttons from going full width on small screens */
+    .navbar .btn {
+        width: auto;
+        align-self: center;
     }
 }
