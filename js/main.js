@@ -1,5 +1,5 @@
 // Main JavaScript functionality
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Initialize all components
     initNavigation();
     initScrollAnimations();
@@ -13,43 +13,112 @@ document.addEventListener('DOMContentLoaded', function() {
     initParticles();
 });
 
-// Navigation functionality
+// Navigation functionality using GSAP
 function initNavigation() {
     const navbar = document.getElementById('navbar');
     const hamburger = document.getElementById('hamburger');
-    const navMenu = document.getElementById('nav-menu');
-    const navLinks = document.querySelectorAll('.nav-link');
+    const navContent = document.getElementById('card-nav-content');
+    const navCards = document.querySelectorAll('.nav-card');
 
-    // Navbar scroll effect
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
+    let isExpanded = false;
+    let tl = null;
+
+    const calculateHeight = () => {
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        if (isMobile) {
+            // Temporarily show content to measure height
+            const wasVisible = navContent.style.visibility;
+            const wasPointerEvents = navContent.style.pointerEvents;
+            const wasPosition = navContent.style.position;
+            const wasHeight = navContent.style.height;
+
+            navContent.style.visibility = 'visible';
+            navContent.style.pointerEvents = 'auto';
+            navContent.style.position = 'static';
+            navContent.style.height = 'auto';
+
+            const topBar = 60;
+            const padding = 16;
+            const contentHeight = navContent.scrollHeight;
+
+            navContent.style.visibility = wasVisible;
+            navContent.style.pointerEvents = wasPointerEvents;
+            navContent.style.position = wasPosition;
+            navContent.style.height = wasHeight;
+
+            return topBar + contentHeight + padding;
         }
-    });
+        return 260; // Desktop expanded height
+    };
 
-    // Mobile menu toggle
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
-    });
+    const createTimeline = () => {
+        if (tl) tl.kill();
 
-    // Close mobile menu when clicking on a link
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
+        gsap.set(navbar, { height: 60, overflow: 'hidden' });
+        gsap.set(navCards, { y: 50, opacity: 0 });
+
+        const newTl = gsap.timeline({ paused: true });
+
+        newTl.to(navbar, {
+            height: calculateHeight,
+            duration: 0.4,
+            ease: "power3.out"
         });
+
+        newTl.to(navCards, {
+            y: 0,
+            opacity: 1,
+            duration: 0.4,
+            ease: "power3.out",
+            stagger: 0.08
+        }, '-=0.1');
+
+        return newTl;
+    };
+
+    tl = createTimeline();
+
+    const toggleMenu = () => {
+        if (!isExpanded) {
+            isExpanded = true;
+            hamburger.classList.add('open');
+            navContent.classList.add('visible');
+            tl.play(0);
+        } else {
+            isExpanded = false;
+            hamburger.classList.remove('open');
+            tl.eventCallback('onReverseComplete', () => {
+                navContent.classList.remove('visible');
+            });
+            tl.reverse();
+        }
+    };
+
+    hamburger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMenu();
     });
 
-    // Close mobile menu when clicking outside
+    // Close menu when clicking outside
     document.addEventListener('click', (e) => {
-        if (!navbar.contains(e.target)) {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
+        if (isExpanded && !navbar.contains(e.target)) {
+            toggleMenu();
         }
     });
+
+    // Re-calculate height on resize
+    window.addEventListener('resize', () => {
+        const wasExpanded = isExpanded;
+        if (wasExpanded) {
+            const newHeight = calculateHeight();
+            gsap.set(navbar, { height: newHeight });
+        }
+        tl = createTimeline();
+        if (wasExpanded) {
+            tl.progress(1);
+        }
+    });
+
 }
 
 // Scroll animations using Intersection Observer
@@ -63,7 +132,7 @@ function initScrollAnimations() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('animated');
-                
+
                 // Special handling for staggered animations
                 if (entry.target.classList.contains('stagger-container')) {
                     const children = entry.target.querySelectorAll('.stagger-animation');
@@ -90,7 +159,7 @@ function initScrollAnimations() {
 // Counter animation
 function initCounters() {
     const counters = document.querySelectorAll('.stat-number');
-    
+
     const counterObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -122,10 +191,10 @@ function initCounters() {
 // Parallax effect
 function initParallax() {
     const parallaxElements = document.querySelectorAll('.parallax-element');
-    
+
     window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
-        
+
         parallaxElements.forEach(element => {
             const rate = scrolled * -0.5;
             element.style.setProperty('--scroll-y', `${rate}px`);
@@ -136,17 +205,17 @@ function initParallax() {
 // Magnetic effect for buttons and cards
 function initMagneticEffect() {
     const magneticElements = document.querySelectorAll('.magnetic');
-    
+
     magneticElements.forEach(element => {
         element.addEventListener('mousemove', (e) => {
             const rect = element.getBoundingClientRect();
             const x = e.clientX - rect.left - rect.width / 2;
             const y = e.clientY - rect.top - rect.height / 2;
-            
+
             element.style.setProperty('--x', `${x * 0.1}px`);
             element.style.setProperty('--y', `${y * 0.1}px`);
         });
-        
+
         element.addEventListener('mouseleave', () => {
             element.style.setProperty('--x', '0px');
             element.style.setProperty('--y', '0px');
@@ -157,23 +226,23 @@ function initMagneticEffect() {
 // Tilt effect for cards
 function initTiltEffect() {
     const tiltElements = document.querySelectorAll('.tilt-card');
-    
+
     tiltElements.forEach(element => {
         element.addEventListener('mousemove', (e) => {
             const rect = element.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-            
+
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
-            
+
             const rotateX = (y - centerY) / 10;
             const rotateY = (centerX - x) / 10;
-            
+
             element.style.setProperty('--rotate-x', `${rotateX}deg`);
             element.style.setProperty('--rotate-y', `${rotateY}deg`);
         });
-        
+
         element.addEventListener('mouseleave', () => {
             element.style.setProperty('--rotate-x', '0deg');
             element.style.setProperty('--rotate-y', '0deg');
@@ -184,13 +253,13 @@ function initTiltEffect() {
 // Smooth scrolling for anchor links
 function initSmoothScrolling() {
     const links = document.querySelectorAll('a[href^="#"]');
-    
+
     links.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const targetId = link.getAttribute('href');
             const targetElement = document.querySelector(targetId);
-            
+
             if (targetElement) {
                 targetElement.scrollIntoView({
                     behavior: 'smooth',
@@ -205,21 +274,21 @@ function initSmoothScrolling() {
 function initPageTransitions() {
     const pageLinks = document.querySelectorAll('a[href$=".html"]');
     const transition = document.querySelector('.page-transition');
-    
+
     if (!transition) {
         // Create transition element if it doesn't exist
         const transitionEl = document.createElement('div');
         transitionEl.className = 'page-transition';
         document.body.appendChild(transitionEl);
     }
-    
+
     pageLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const href = link.getAttribute('href');
-            
+
             document.querySelector('.page-transition').classList.add('active');
-            
+
             setTimeout(() => {
                 window.location.href = href;
             }, 500);
@@ -230,12 +299,12 @@ function initPageTransitions() {
 // Typing effect for hero text
 function initTypingEffect() {
     const typewriterElements = document.querySelectorAll('.typewriter');
-    
+
     typewriterElements.forEach(element => {
         const text = element.textContent;
         element.textContent = '';
         element.style.borderRight = '2px solid var(--primary-color)';
-        
+
         let i = 0;
         const typeWriter = () => {
             if (i < text.length) {
@@ -245,13 +314,13 @@ function initTypingEffect() {
             } else {
                 // Blinking cursor effect
                 setInterval(() => {
-                    element.style.borderRight = element.style.borderRight === 'none' 
-                        ? '2px solid var(--primary-color)' 
+                    element.style.borderRight = element.style.borderRight === 'none'
+                        ? '2px solid var(--primary-color)'
                         : 'none';
                 }, 500);
             }
         };
-        
+
         // Start typing after a delay
         setTimeout(typeWriter, 1000);
     });
@@ -260,7 +329,7 @@ function initTypingEffect() {
 // Particle system
 function initParticles() {
     const particleContainers = document.querySelectorAll('.particles');
-    
+
     particleContainers.forEach(container => {
         for (let i = 0; i < 20; i++) {
             const particle = document.createElement('div');
@@ -276,7 +345,7 @@ function initParticles() {
 // Skill progress bars animation
 function initSkillBars() {
     const skillBars = document.querySelectorAll('.skill-progress');
-    
+
     const skillObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -287,14 +356,14 @@ function initSkillBars() {
             }
         });
     }, { threshold: 0.5 });
-    
+
     skillBars.forEach(bar => skillObserver.observe(bar));
 }
 
 // Progress circles animation
 function initProgressCircles() {
     const progressCircles = document.querySelectorAll('.progress-circle');
-    
+
     const circleObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -303,14 +372,14 @@ function initProgressCircles() {
             }
         });
     }, { threshold: 0.5 });
-    
+
     progressCircles.forEach(circle => circleObserver.observe(circle));
 }
 
 // Reveal text animation
 function initRevealText() {
     const revealElements = document.querySelectorAll('.reveal-text');
-    
+
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -319,14 +388,14 @@ function initRevealText() {
             }
         });
     }, { threshold: 0.5 });
-    
+
     revealElements.forEach(element => revealObserver.observe(element));
 }
 
 // Sparkle effect
 function initSparkles() {
     const sparkleContainers = document.querySelectorAll('.sparkle-container');
-    
+
     sparkleContainers.forEach(container => {
         for (let i = 0; i < 4; i++) {
             const sparkle = document.createElement('div');
@@ -349,7 +418,7 @@ function showLoading() {
     loader.style.transform = 'translate(-50%, -50%)';
     loader.style.zIndex = '9999';
     document.body.appendChild(loader);
-    
+
     return loader;
 }
 
@@ -374,7 +443,7 @@ function debounce(func, wait) {
 
 function throttle(func, limit) {
     let inThrottle;
-    return function() {
+    return function () {
         const args = arguments;
         const context = this;
         if (!inThrottle) {

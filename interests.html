@@ -10,46 +10,93 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Add GSAP from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
 
 <body>
     <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <span class="logo-text">Dikshya</span>
-                <span class="logo-accent">Singh</span>
+    <div class="card-nav-container z-[99]">
+        <nav id="navbar"
+            class="card-nav block h-[60px] p-0 rounded-xl shadow-md relative overflow-hidden will-change-[height]">
+            <div class="card-nav-top">
+                <div id="hamburger"
+                    class="hamburger-menu group h-full flex flex-col items-center justify-center cursor-pointer gap-[6px] order-2 md:order-none"
+                    role="button" aria-label="Open menu" tabindex="0" style="color: #000">
+                    <div
+                        class="hamburger-line w-[30px] h-[2px] bg-current transition-[transform,opacity,margin] duration-300 ease-linear [transform-origin:50%_50%]">
+                    </div>
+                    <div
+                        class="hamburger-line w-[30px] h-[2px] bg-current transition-[transform,opacity,margin] duration-300 ease-linear [transform-origin:50%_50%]">
+                    </div>
+                </div>
+
+                <div
+                    class="logo-container flex items-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 order-1 md:order-none">
+                    <a href="index.html" class="nav-logo-link">
+                        <div class="nav-logo">
+                            <span class="logo-text">Dikshya</span>
+                            <span class="logo-accent">Singh</span>
+                        </div>
+                    </a>
+                </div>
+
+                <a href="Dikshya Singh Resume.pdf" target="_blank"
+                    class="card-nav-cta-button hidden md:inline-flex border-0 rounded-[calc(0.75rem-0.2rem)] px-4 items-center h-full font-medium cursor-pointer no-underline">
+                    View Resume
+                </a>
             </div>
-            <ul class="nav-menu" id="nav-menu">
-                <li class="nav-item">
-                    <a href="index.html" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="about.html" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="skills.html" class="nav-link">Skills</a>
-                </li>
-                <li class="nav-item">
-                    <a href="projects.html" class="nav-link">Projects</a>
-                </li>
-                <li class="nav-item">
-                    <a href="interests.html" class="nav-link active">Interests</a>
-                </li>
-                <li class="nav-item">
-                    <a href="contact.html" class="nav-link">Contact</a>
-                </li>
-                <li class="nav-item">
-                    <a href="DIKSHYA%27S%20Resume.pdf" class="btn btn-primary" target="_blank" rel="noopener noreferrer">View Resume</a>
-                </li>
-            </ul>
-            <div class="hamburger" id="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+
+            <div id="card-nav-content" class="card-nav-content">
+                <!-- Card 1: About -->
+                <div
+                    class="nav-card select-none relative flex flex-col gap-2 p-[12px_16px] rounded-[calc(0.75rem-0.2rem)] min-w-0 flex-[1_1_auto] h-auto min-h-[60px] md:h-full md:min-h-0 md:flex-[1_1_0%]">
+                    <div class="nav-card-label font-normal tracking-[-0.5px] text-[18px] md:text-[22px]">Profile</div>
+                    <div class="nav-card-links mt-auto flex flex-col gap-[2px]">
+                        <a class="nav-card-link" href="about.html">
+                            <i class="fas fa-arrow-up-right-from-square nav-card-link-icon shrink-0"></i> About Me
+                        </a>
+                        <a class="nav-card-link" href="skills.html">
+                            <i class="fas fa-arrow-up-right-from-square nav-card-link-icon shrink-0"></i> Skills
+                        </a>
+                        <a class="nav-card-link" href="interests.html">
+                            <i class="fas fa-arrow-up-right-from-square nav-card-link-icon shrink-0"></i> Interests
+                        </a>
+                    </div>
+                </div>
+                <!-- Card 2: Projects -->
+                <div
+                    class="nav-card select-none relative flex flex-col gap-2 p-[12px_16px] rounded-[calc(0.75rem-0.2rem)] min-w-0 flex-[1_1_auto] h-auto min-h-[60px] md:h-full md:min-h-0 md:flex-[1_1_0%]">
+                    <div class="nav-card-label font-normal tracking-[-0.5px] text-[18px] md:text-[22px]">Portfolio</div>
+                    <div class="nav-card-links mt-auto flex flex-col gap-[2px]">
+                        <a class="nav-card-link" href="projects.html">
+                            <i class="fas fa-arrow-up-right-from-square nav-card-link-icon shrink-0"></i> Featured Work
+                        </a>
+                        <a class="nav-card-link" href="projects.html">
+                            <i class="fas fa-arrow-up-right-from-square nav-card-link-icon shrink-0"></i> All Projects
+                        </a>
+                    </div>
+                </div>
+                <!-- Card 3: Contact -->
+                <div
+                    class="nav-card select-none relative flex flex-col gap-2 p-[12px_16px] rounded-[calc(0.75rem-0.2rem)] min-w-0 flex-[1_1_auto] h-auto min-h-[60px] md:h-full md:min-h-0 md:flex-[1_1_0%]">
+                    <div class="nav-card-label font-normal tracking-[-0.5px] text-[18px] md:text-[22px]">Connect</div>
+                    <div class="nav-card-links mt-auto flex flex-col gap-[2px]">
+                        <a class="nav-card-link" href="https://www.linkedin.com/in/dikshya-singh-4627231b7"
+                            target="_blank">
+                            <i class="fab fa-linkedin nav-card-link-icon shrink-0"></i> LinkedIn
+                        </a>
+                        <a class="nav-card-link" href="https://github.com/DikshyaSingh" target="_blank">
+                            <i class="fab fa-github nav-card-link-icon shrink-0"></i> GitHub
+                        </a>
+                        <a class="nav-card-link" href="contact.html">
+                            <i class="fas fa-envelope nav-card-link-icon shrink-0"></i> Contact
+                        </a>
+                    </div>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </div>
 
     <!-- Page Header -->
     <section class="page-header">
@@ -266,7 +313,7 @@
                     <div class="goal-content">
                         <h3 class="goal-title">Figma</h3>
                         <p class="goal-description">
-                            Learning and using Figma to design clear and effective digital interfaces. 
+                            Learning and using Figma to design clear and effective digital interfaces.
                         </p>
                         <div class="goal-progress">
                             <div class="progress-bar">
@@ -275,16 +322,16 @@
                             <span class="progress-text">80% Complete</span>
                         </div>
                     </div>
-                    
+
                 </div>
-                 <div class="goal-item">
+                <div class="goal-item">
                     <div class="goal-marker">
                         <i class="fas fa-star"></i>
                     </div>
                     <div class="goal-content">
                         <h3 class="goal-title">WIX</h3>
                         <p class="goal-description">
-                            Learning and using WIX to design clear and effective digital interfaces. 
+                            Learning and using WIX to design clear and effective digital interfaces.
                         </p>
                         <div class="goal-progress">
                             <div class="progress-bar">
@@ -293,7 +340,7 @@
                             <span class="progress-text">40% Complete</span>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="goal-item">
                     <div class="goal-marker">
