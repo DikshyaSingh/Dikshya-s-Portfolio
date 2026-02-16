@@ -1,8 +1,7 @@
 // Contact page functionality
 document.addEventListener('DOMContentLoaded', function () {
     // Initialize EmailJS with your Public Key
-    // Please replace 'YOUR_PUBLIC_KEY' with your actual EmailJS Public Key
-    emailjs.init("YOUR_PUBLIC_KEY");
+    emailjs.init("t_2zid7XtKGRJwKBY");
 
     initContactForm();
     initFAQ();
@@ -29,12 +28,12 @@ function initContactForm() {
         const originalIcon = submitButton.querySelector('.btn-icon').className;
 
         submitButton.querySelector('.btn-text').textContent = 'Sending...';
-        submitButton.querySelector('.btn-icon').className = 'fas fa-spinner fa-spin';
+        submitButton.querySelector('i').className = 'fas fa-spinner fa-spin';
         submitButton.disabled = true;
 
-        // Simulate form submission (replace with actual API call)
+        // Send the form using EmailJS
         try {
-            await simulateFormSubmission(new FormData(form));
+            await simulateFormSubmission(form);
             showSuccessMessage();
             form.reset();
             resetFormStyles();
@@ -43,7 +42,7 @@ function initContactForm() {
         } finally {
             // Reset button state
             submitButton.querySelector('.btn-text').textContent = originalText;
-            submitButton.querySelector('.btn-icon').className = originalIcon;
+            submitButton.querySelector('i').className = originalIcon;
             submitButton.disabled = false;
         }
     });
@@ -202,11 +201,22 @@ function resetFormStyles() {
 }
 
 // EmailJS form submission
-async function simulateFormSubmission(formData) {
+async function simulateFormSubmission(formElement) {
     const serviceID = "service_ltsaldv";
-    const templateID = "YOUR_TEMPLATE_ID"; // Replace with your actual Template ID
+    const templateID = "template_ru8ex5y";
 
-    return emailjs.sendForm(serviceID, templateID, "#contact-form");
+    try {
+        const response = await emailjs.sendForm(serviceID, templateID, formElement);
+        return response;
+    } catch (error) {
+        // Log error for debugging (user can check console if comfortable)
+        console.error("EmailJS Error:", error);
+
+        // Throw a cleaner error message
+        if (typeof error === 'string') throw new Error(error);
+        if (error.text) throw new Error(error.text);
+        throw error;
+    }
 }
 
 // Success/Error messages

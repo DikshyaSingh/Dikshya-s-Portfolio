@@ -1559,6 +1559,7 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--spacing-3xl);
+    align-items: start;
 }
 
 .contact-form-container {
