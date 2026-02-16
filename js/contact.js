@@ -1,5 +1,9 @@
 // Contact page functionality
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+    // Initialize EmailJS with your Public Key
+    // Please replace 'YOUR_PUBLIC_KEY' with your actual EmailJS Public Key
+    emailjs.init("YOUR_PUBLIC_KEY");
+
     initContactForm();
     initFAQ();
     initContactAnimations();
@@ -15,7 +19,7 @@ function initContactForm() {
     // Form submission
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
         if (!validateForm(form)) {
             return;
         }
@@ -23,7 +27,7 @@ function initContactForm() {
         // Show loading state
         const originalText = submitButton.querySelector('.btn-text').textContent;
         const originalIcon = submitButton.querySelector('.btn-icon').className;
-        
+
         submitButton.querySelector('.btn-text').textContent = 'Sending...';
         submitButton.querySelector('.btn-icon').className = 'fas fa-spinner fa-spin';
         submitButton.disabled = true;
@@ -65,7 +69,7 @@ function initContactForm() {
 // Form validation
 function initFormValidation() {
     const form = document.getElementById('contact-form');
-    
+
     // Real-time validation
     form.addEventListener('input', (e) => {
         if (e.target.matches('.form-input, .form-textarea')) {
@@ -151,7 +155,7 @@ function validateForm(form) {
 function showFieldError(field, message) {
     field.classList.add('error');
     field.classList.remove('success');
-    
+
     let errorElement = field.parentElement.querySelector('.field-error');
     if (!errorElement) {
         errorElement = document.createElement('div');
@@ -165,7 +169,7 @@ function showFieldError(field, message) {
         `;
         field.parentElement.appendChild(errorElement);
     }
-    
+
     errorElement.textContent = message;
     setTimeout(() => {
         errorElement.style.opacity = '1';
@@ -197,18 +201,12 @@ function resetFormStyles() {
     });
 }
 
-// Simulate form submission
+// EmailJS form submission
 async function simulateFormSubmission(formData) {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            // Simulate random success/failure for demo
-            if (Math.random() > 0.1) { // 90% success rate
-                resolve({ success: true });
-            } else {
-                reject(new Error('Network error. Please try again.'));
-            }
-        }, 2000);
-    });
+    const serviceID = "service_ltsaldv";
+    const templateID = "YOUR_TEMPLATE_ID"; // Replace with your actual Template ID
+
+    return emailjs.sendForm(serviceID, templateID, "#contact-form");
 }
 
 // Success/Error messages
@@ -299,7 +297,7 @@ function initFAQ() {
 function initContactAnimations() {
     // Animate contact cards on scroll
     const contactCards = document.querySelectorAll('.contact-card');
-    
+
     const cardObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry, index) => {
             if (entry.isIntersecting) {
@@ -320,12 +318,12 @@ function initContactAnimations() {
 
     // Animate form elements
     const formGroups = document.querySelectorAll('.form-group');
-    
+
     formGroups.forEach((group, index) => {
         group.style.opacity = '0';
         group.style.transform = 'translateX(-30px)';
         group.style.transition = 'all 0.6s ease';
-        
+
         setTimeout(() => {
             group.style.opacity = '1';
             group.style.transform = 'translateX(0)';
@@ -334,12 +332,12 @@ function initContactAnimations() {
 
     // Animate social links
     const socialLinks = document.querySelectorAll('.social-link-large');
-    
+
     socialLinks.forEach((link, index) => {
         link.addEventListener('mouseenter', () => {
             link.style.transform = 'translateY(-3px) scale(1.05)';
         });
-        
+
         link.addEventListener('mouseleave', () => {
             link.style.transform = 'translateY(0) scale(1)';
         });
@@ -350,7 +348,7 @@ function initContactAnimations() {
 function initCharacterCounter() {
     const textarea = document.querySelector('#message');
     const maxLength = 500;
-    
+
     if (textarea) {
         const counter = document.createElement('div');
         counter.className = 'character-counter';
@@ -360,13 +358,13 @@ function initCharacterCounter() {
             color: var(--gray);
             margin-top: 0.5rem;
         `;
-        
+
         textarea.parentElement.appendChild(counter);
-        
+
         const updateCounter = () => {
             const remaining = maxLength - textarea.value.length;
             counter.textContent = `${remaining} characters remaining`;
-            
+
             if (remaining < 50) {
                 counter.style.color = '#e74c3c';
             } else if (remaining < 100) {
@@ -375,7 +373,7 @@ function initCharacterCounter() {
                 counter.style.color = 'var(--gray)';
             }
         };
-        
+
         textarea.addEventListener('input', updateCounter);
         textarea.setAttribute('maxlength', maxLength);
         updateCounter();
@@ -385,7 +383,7 @@ function initCharacterCounter() {
 // Auto-resize textarea
 function initAutoResizeTextarea() {
     const textarea = document.querySelector('#message');
-    
+
     if (textarea) {
         textarea.addEventListener('input', () => {
             textarea.style.height = 'auto';
@@ -403,16 +401,16 @@ document.addEventListener('DOMContentLoaded', () => {
 // Copy contact info to clipboard
 function initCopyToClipboard() {
     const contactTexts = document.querySelectorAll('.contact-text');
-    
+
     contactTexts.forEach(text => {
         text.style.cursor = 'pointer';
         text.title = 'Click to copy';
-        
+
         text.addEventListener('click', async () => {
             try {
                 await navigator.clipboard.writeText(text.textContent);
                 showNotification('Copied to clipboard!', 'success');
-                
+
                 // Visual feedback
                 const originalColor = text.style.color;
                 text.style.color = 'var(--primary-color)';
